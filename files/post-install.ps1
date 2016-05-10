@@ -1,9 +1,12 @@
 $puppet_master=$args[0]
 $puppet_role=$args[1]
-
-# This script installs the windows puppet agent on the windows seteam vagrant vms
+# This script lays down a yaml fact to designate a machine's role and then 
+# installs the windows puppet agent on the windows seteam vagrant vms
 # from the master's pe_repo by downloading it to C:\tmp first and then running
 # msiexec on it from there.
+
+New-Item C:\ProgramData\PuppetLabs\facter\facts.d -type directory -force
+New-Item C:\ProgramData\PuppetLabs\facter\facts.d\role.yaml -type file -value "puppet_role: ${puppet_role}"
 
 $msi_source = "https://${puppet_master}:8140/packages/current/windows-x86_64/puppet-agent-x64.msi"
 $msi_dest = "C:\tmp\puppet-agent-x64.msi"
