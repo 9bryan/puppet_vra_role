@@ -14,7 +14,8 @@ $msi_dest = "C:\puppet-agent-x64.msi"
 # Start the agent installation process and wait for it to end before continuing.
 Write-Host "Installing puppet agent from ${msi_source}"
 
-# Determine system hostname and primary DNS suffix to determine certname
+# Determine system hostname and primary DNS suffix
+# Join strings and apply lowercase filter to determine certname
 $objIPProperties = [System.Net.NetworkInformation.IPGlobalProperties]::GetIPGlobalProperties()
 $name_components = @($objIPProperties.HostName.ToLower(), $objIPProperties.DomainName.ToLower()) | ? {$_}
 $certname = $name_components -Join "."
