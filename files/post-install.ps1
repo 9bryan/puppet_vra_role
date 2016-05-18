@@ -16,7 +16,7 @@ Write-Host "Installing puppet agent from ${msi_source}"
 
 # Determine system hostname and primary DNS suffix to determine certname
 $objIPProperties = [System.Net.NetworkInformation.IPGlobalProperties]::GetIPGlobalProperties()
-$name_components = @($objIPProperties.HostName, $objIPProperties.DomainName) | ? {$_}
+$name_components = @($objIPProperties.HostName.ToLower(), $objIPProperties.DomainName.ToLower()) | ? {$_}
 $certname = $name_components -Join "."
 
 Function Get-WebPage { Param( $url, $file, [switch]$force)
